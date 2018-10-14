@@ -6,7 +6,7 @@ if (isset($_SERVER['PATH_INFO'])) {
     $path_split = explode('/', ltrim($path));
 
 } else {
-    header('Location: /dashboard.html');
+    return header('Location: /dashboard.html');
 }
 
 $req_controller = $path_split[1];
