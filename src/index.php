@@ -11,11 +11,13 @@ if (isset($_SERVER['PATH_INFO'])) {
 
 $req_controller = $path_split[1];
 
-$req_model = $path_split[1];
-
 $req_method = strtolower($_SERVER['REQUEST_METHOD']);
 
+$req_body = file_get_contents('php://input');
+
 $req_resource_id = $path_split[2];
+
+$req_query = $_SERVER['QUERY_STRING'];
 
 if ($req_controller == 'transactions') {
     $controller_path = __DIR__ . '/Controllers/transactionController.php';
@@ -31,14 +33,22 @@ else {
 require_once $controller_path;
 require_once $model_path;
 
-$ModelObj = new $model;
 $ControllerObj = new $controller($model);
 header('Content-Type: application/json');
 
 try {
-    print $ControllerObj->$req_method($req_resource_id);
+    if ($req_method == 'put') $input = $req_body;
+    else if ($req_method == 'delete') {
+        $input = $req_resource_id;
+    }
+    else if ($req_method == 'get') {
+        $input = $req_query;
+    }
+    print $ControllerObj->$req_method($input);
 }
 catch(Exception $e) {
-    header('HTTP/1.1 500 Internal Server Error');
-    die(json_encode(['message' => $e->getMessage()]));
+    $code = 500;
+    if ($e -> getCode()) $code = $e -> getCode();
+    http_response_code($code);
+    die(json_encode(['message' => $e->getMessage(), 'source' => $req_controller]));
 }
