@@ -28,7 +28,7 @@ if ($req_controller == 'transactions') {
 }
 else {
     http_response_code(404);
-    die('Page Not Found');
+    echo('Page Not Found');
 }
 
 require_once $controller_path;
@@ -45,11 +45,11 @@ try {
     else if ($req_method == 'get') {
         $input = $req_query;
     }
-    print $ControllerObj->$req_method($input);
+    echo $ControllerObj->$req_method($input);
 }
 catch(Exception $e) {
     $code = 500;
     if ($e -> getCode()) $code = $e -> getCode();
     http_response_code($code);
-    die(json_encode(['message' => $e->getMessage(), 'source' => $req_controller]));
+    echo(json_encode(['message' => $e->getMessage(), 'source' => $req_controller]));
 }

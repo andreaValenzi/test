@@ -18,7 +18,11 @@ class TransactionModel {
               products.description as description
               from transactions, products where transactions.product_id = products.id and transactions.id=" . $id);
             $row = $statement->fetch(PDO::FETCH_ASSOC);
-            return json_encode(toDto($row));
+            $dto = $row;
+            if ($row) {
+                $dto = toDto($row);
+            }
+            return json_encode($dto);
         }
         catch(Exception $e) {
             if ($_SERVER['ENVIRONMENT'] == 'development') throw $e;
