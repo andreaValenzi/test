@@ -162,7 +162,7 @@ class TransactionController
                 $validated['is_valid'] = false;
                 array_push($validated['errors'], "The amount can not be empty");
             }
-            else if (!is_numeric($body['user_id'])){
+            else if (!is_numeric($body['amount'])){
                 $validated['is_valid'] = false;
                 array_push($validated['errors'], "The amount must be a numeric string");
             }
