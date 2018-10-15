@@ -27,7 +27,8 @@ if ($req_controller == 'transactions') {
     $controller = 'TransactionController';
 }
 else {
-    header('HTTP/1.1 404 Not Found');
+    http_response_code(404);
+    die('Page Not Found');
 }
 
 require_once $controller_path;
