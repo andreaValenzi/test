@@ -4,7 +4,7 @@ $(document).ready(function () {
         url: '/transactions/',
         type: 'GET',
         success: function(transactions) {
-            const divs = transactions.map(function (transaction) {
+            var divs = transactions.map(function (transaction) {
                 return '<div "id"=' + transaction.id + ' class="test-Transactions__element" >' +
                 '<div class="test-Transactions__attribute">' + transaction.id + '</div>' +
                 '<div class="test-Transactions__attribute">' + transaction.user_id + '</div>' +
